@@ -1,0 +1,37 @@
+<div>V0075 = <span>0</span></div>
+<div>V0076 = <span>0</span></div>
+<div>V0077 = <span>0</span></div>
+<div>V0078 = <span>0</span></div>
+<div>V0079 = <span>0</span></div>
+<div>V0080 = <span>0</span></div>
+<div id="boxes"></div>
+<script>
+    for (let y = 0; y < 9; y++) {
+        const row = document.createElement("div");
+        
+        for (let x = 0; x < 12; x++) {
+            const box = document.createElement("input");
+            box.type = "checkbox";
+            box.onchange = recalculate;
+            row.appendChild(box);
+        }
+
+        boxes.appendChild(row);
+    }
+
+    function recalculate() {
+        const boxes = document.querySelectorAll("input[type='checkbox']");
+        const bits = [...boxes].map(box => box.checked).concat(0,0,0,0,0,0);
+        const outs = document.querySelectorAll("div>span");
+        for (let i = 0; i < 6; i++) {
+            const start = i * 19;
+            const chunk = bits.slice(start, start + 19);
+            let acc = 0;
+            for (const bit of chunk.reverse()) {
+                acc <<= 1;
+                acc += bit;
+            }
+            outs[i].textContent = acc;
+        }
+    }
+</script>
